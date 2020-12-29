@@ -3,16 +3,18 @@ const User = require('../Model/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
-const signToken = id => {
-    jwt.sign({id: id}, process.env.JWT_SECRET, {
-        expiresIn: process.env.JWT_EXPIRES_IN
-    });
-}
+// const signToken = id => {
+//     jwt.sign({id: newUser._id}, process.env.JWT_SECRET, {
+//         expiresIn: process.env.JWT_EXPIRES_IN
+//     });
+// }
 
 exports.signup = catchAsync(async (req,res,next) => {
 
         const newUser = await User.create(req.body);
-        const token = signToken(newUser.__id);
+        const token = jwt.sign({id: newUser._id}, process.env.JWT_SECRET, {
+            expiresIn: process.env.JWT_EXPIRES_IN
+        })
         res.status(201).json({
             message : 'success',
             token,
@@ -39,7 +41,9 @@ exports.login = catchAsync(async (req,res,next) => {
         return next(new AppError('Incorrect Email or Password', 401));
     }
     //3 if everything ok send token to the client
-    const token = signToken(user._id);
+    const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_EXPIRES_IN
+    })
     res.status(200).json({
         message : 'success',
         token,
