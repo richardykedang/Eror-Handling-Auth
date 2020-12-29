@@ -35,3 +35,5 @@
 -.delete data = node dev-data/data/import-dev-data.js --delete
 
 -.npm install validator
+-.npm install bcrypt atau npm install bcryptjs
+-.
