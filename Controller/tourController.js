@@ -3,6 +3,7 @@ const fs = require('fs');
 const { Query } = require('mongoose');
 const Tour = require('../Model/tourModel');
 const APIFeatures = require('../utils/apiFeatures');
+const appError = require('../utils/appError');
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`));
 const catchAsync = require('../utils/catchAsync');
 
@@ -30,6 +31,10 @@ exports.getTour = catchAsync(async (req, res, next) => {
    
     const tour = await Tour.findById(req.params.id)
     //const tour = await Tour.find({_id: req.params.id})
+    //adding 404
+    if(!tour) {
+        return next(new appError('No tour found with that ID', 404));
+    }
     res.status(200).json({
         status : 'success',
         data : {
@@ -58,7 +63,12 @@ exports.updateTour = catchAsync(async (req, res, next) => {
     const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
         runValidators:true
-    })
+    });
+
+    //adding 404
+    if(!tour) {
+        return next(new appError('No tour found with that ID', 404));
+    }
 
     res.status(200).json({
         status : 'success',
@@ -72,7 +82,12 @@ exports.updateTour = catchAsync(async (req, res, next) => {
 
 exports.deleteTour = catchAsync(async (req, res) => {
 
-    await Tour.findByIdAndDelete(req.params.id)
+    const tour = await Tour.findByIdAndDelete(req.params.id);
+
+    //adding 404
+    if(!tour) {
+        return next(new appError('No tour found with that ID', 404));
+    }
 
         res.status(204).json({
             status : 'succes',
