@@ -36,4 +36,4 @@
 
 -.npm install validator
 -.npm install bcrypt atau npm install bcryptjs
--.
+-.npm install jsonwebtoken
