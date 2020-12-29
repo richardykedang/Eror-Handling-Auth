@@ -33,3 +33,5 @@
 -.instal the enviroment = npm install dotenv --save
 -.import data = node dev-data/data/import-dev-data.js --import
 -.delete data = node dev-data/data/import-dev-data.js --delete
+
+-.npm install validator
