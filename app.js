@@ -6,6 +6,7 @@ const appError = require('./utils/appError');
 const globalErrorHandler = require('./Controller/errorController');
 
 const tourRouter = require('./router/tourRoute');
+const userRouter = require('./router/userRouter');
 
 const app = express();
 
@@ -14,7 +15,8 @@ app.use(morgan('dev'))
 app.use(express.json());
 
 //3 ROUTES
-app.use('/api/v1/tours', tourRouter)
+app.use('/api/v1/tours', tourRouter);
+app.use('/api/v1/users', userRouter);
 
 //console.log(tours)
 //Handling unhandled routes
